@@ -8,5 +8,6 @@ namespace ClassesGradeApp.Repositories
         void AddGrade(Grade grade);
         void UpdateGrade(Grade grade);
         void DeleteGrade(int gradeId);
+        DataTable GetAll();
     }
 }

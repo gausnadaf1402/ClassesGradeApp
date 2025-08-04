@@ -1,6 +1,7 @@
 ﻿using ClassesGradeApp.Models;
 using ClassesGradeApp.Repositories;
 using System;
+using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 
@@ -61,5 +62,17 @@ public class SqlGradeRepository : IGradeRepository
         cmd.Parameters.AddWithValue("@GradeID", gradeId);
         conn.Open();
         cmd.ExecuteNonQuery();
+    }
+
+    public DataTable GetAll()
+    {
+        string connectionString = "Data Source=.\\sqlexpress;Initial Catalog=StudManagement;Integrated Security=True;TrustServerCertificate=True";
+        var con = new SqlConnection(connectionString);
+        var da = new SqlDataAdapter(
+            @"SELECT GRADEID, GradeName, Description, ActiveStatus, IsDeleted, CreatedBy, CreatedDate, ModifiedBy, ModifiedDate
+              FROM dbo.MstGrades", con);
+        var dt = new DataTable();
+        da.Fill(dt);
+        return dt;
     }
 }

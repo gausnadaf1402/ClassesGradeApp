@@ -133,47 +133,47 @@ namespace ClassesGradeApp
         private void btnshow_Click(object sender, EventArgs e)
         {
             timerslide.Start();
-            //panelshowgrades.Visible = true;
-            LoadGrades(); // Load grades when showing the panel
+            var dt = _gradeRepo.GetAll();
+            datagridviewgrades.DataSource = dt;
         }
 
         private void btnhide_Click(object sender, EventArgs e)
         {
             panelshowgrades.Visible = true;
             timerslide.Start();
-        
+
         }
 
-        private void LoadGrades()
-        {
-            string connectionString = "Data Source=.\\sqlexpress;Initial Catalog=StudManagement;Integrated Security=True;TrustServerCertificate=True";
+        //private void LoadGrades()
+        //{
+        //    string connectionString = "Data Source=.\\sqlexpress;Initial Catalog=StudManagement;Integrated Security=True;TrustServerCertificate=True";
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                string query = "SELECT GradeID, GradeName, Description, ActiveStatus, IsDeleted, CreatedBy, CreatedDate, ModifiedBy, ModifiedDate FROM dbo.MstGrades";
+        //    using (SqlConnection conn = new SqlConnection(connectionString))
+        //    {
+        //        string query = "SELECT GradeID, GradeName, Description, ActiveStatus, IsDeleted, CreatedBy, CreatedDate, ModifiedBy, ModifiedDate FROM dbo.MstGrades";
 
-                SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
-                DataTable table = new DataTable();
-                adapter.Fill(table);
+        //        SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
+        //        DataTable table = new DataTable();
+        //        adapter.Fill(table);
 
-                datagridviewgrades.DataSource = table;
+        //        datagridviewgrades.DataSource = table;
 
-                // Only show these columns
-                datagridviewgrades.Columns["GradeId"].Visible = true;
-                datagridviewgrades.Columns["GradeName"].Visible = true;
-                datagridviewgrades.Columns["Description"].Visible = true;
+        //        // Only show these columns
+        //        datagridviewgrades.Columns["GradeId"].Visible = true;
+        //        datagridviewgrades.Columns["GradeName"].Visible = true;
+        //        datagridviewgrades.Columns["Description"].Visible = true;
 
-                // Hide these columns
-                datagridviewgrades.Columns["ActiveStatus"].Visible = false;
-                datagridviewgrades.Columns["CreatedBy"].Visible = false;
-                datagridviewgrades.Columns["ModifiedBy"].Visible = false;
-                datagridviewgrades.Columns["IsDeleted"].Visible = false;
-                datagridviewgrades.Columns["CreatedDate"].Visible = false;
-                datagridviewgrades.Columns["ModifiedDate"].Visible = false;
+        //        // Hide these columns
+        //        datagridviewgrades.Columns["ActiveStatus"].Visible = false;
+        //        datagridviewgrades.Columns["CreatedBy"].Visible = false;
+        //        datagridviewgrades.Columns["ModifiedBy"].Visible = false;
+        //        datagridviewgrades.Columns["IsDeleted"].Visible = false;
+        //        datagridviewgrades.Columns["CreatedDate"].Visible = false;
+        //        datagridviewgrades.Columns["ModifiedDate"].Visible = false;
 
 
-            }
-        }
+        //    }
+        //}
         private void dataGridViewGrades_SelectionChanged(object sender, EventArgs e)
         {
             if (datagridviewgrades.SelectedRows.Count == 0)
@@ -262,7 +262,7 @@ namespace ClassesGradeApp
                 MessageBox.Show("Record deleted successfully.");
                 ClearForm();
                 selectedGradeId = -1; // Reset selected ID
-                LoadGrades(); // Refresh the grid after deletion
+                //LoadGrades(); // Refresh the grid after deletion
             }
             catch (Exception ex)
             {
